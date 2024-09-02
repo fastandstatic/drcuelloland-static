@@ -53,7 +53,7 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
 <link rel="stylesheet" id="elementor-pro-css" href="/wp-content/uploads/elementor/css/custom-pro-frontend-lite.min.css?ver=1724943950" media="all">
 <link rel="stylesheet" id="elementor-global-css" href="/wp-content/uploads/elementor/css/global.css?ver=1724943952" media="all">
 <link rel="stylesheet" id="elementor-post-818-css" href="/wp-content/uploads/elementor/css/post-818.css?ver=1725295127" media="all">
-<link rel="stylesheet" id="elementor-post-1671-css" href="/wp-content/uploads/elementor/css/post-1671.css?ver=1725296788" media="all">
+<link rel="stylesheet" id="elementor-post-1671-css" href="/wp-content/uploads/elementor/css/post-1671.css?ver=1725301500" media="all">
 <link rel="stylesheet" id="google-fonts-1-css" href="https://fonts.googleapis.com/css?family=Roboto%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CRoboto+Slab%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CPoppins%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&#038;display=auto&#038;ver=6.6.1" media="all">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
 <link rel="https://api.w.org/" href="/wp-json/">
@@ -1046,69 +1046,56 @@ function handleSubmitwp(event) {
         console.log("Phone:", phoneNumber);
     } else {
         closedpopup();
-                Swal.fire({
-                    title: "El número de teléfono debe iniciar con '3' y tener 10 caracteres",
-                    icon: "error",
-                    confirmButtonColor: "#000000",
-                    confirmButtonText: "Cerrar",
-                });
-                //phone.focus();
-                return false;
-            }  
+        Swal.fire({
+            title: "El número de teléfono debe iniciar con '3' y tener 10 caracteres",
+            icon: "error",
+            confirmButtonColor: "#000000",
+            confirmButtonText: "Cerrar",
+        });
+        //phone.focus();
+        return false;
+    }  
+    closedpopup();
+    Swal.fire({
+        title: "Tu mensaje fue recibido, muy pronto te contactaremos a tu whatsapp: "+ phoneNumber,
+        icon: "success",
+        confirmButtonColor: "#000000",
+        confirmButtonText: "Cerrar",
+    }).then(() =>{
+        console.log("Alerta mostrada con éxito");
+        //eventowp();
+        
+                
+        const telefono_empresa = '573008374388';
+        
+        // Redirigir a WhatsApp después de 3 segundos
 
-    fetch("#",
-        {
-            body: JSON.stringify(value),
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            method: "post",
-        }) 
-        
-        .then((response) =>{
-            if (response.ok) {
-                Swal.fire({
-                    title: "Tu mensaje fue recibido, muy pronto te contactaremos a tu whatsapp: "+ phoneNumber,
-                    icon: "success",
-                    confirmButtonColor: "#000000",
-                    confirmButtonText: "Cerrar",
-                });
-                
-                //eventowp();
-                closedpopup();
-                
-                const telefono_empresa = '573008374388';
-                
-                function isMobile() {
-                    if (sessionStorage.desktop)
-                        return false;
-                    else if (localStorage.mobile)
-                        return true;
-                    var mobile = ['iphone', 'ipad', 'android', 'blackberry', 'nokia', 'opera mini', 'windows mobile', 'windows phone', 'iemobile'];
-                    for (var i in mobile)
-                        if (navigator.userAgent.toLowerCase().indexOf(mobile[i].toLowerCase()) > 0) return true;
-                    return false;
-                }
-        
-                // Redirigir a WhatsApp después de 3 segundos
-                setTimeout(() => {
-                    const mensaje = `send?phone=${telefono_empresa}&text=**%0A*Nombre:*%0A${nombre}%0A*Celular:*%0A${phoneNumber}%0A*Correo electrónico:*%0A${email}%0A*Ciudad:*%0A${ciudad}%0A*Pais:*%0A${country}`;
-                    const url = isMobile() ? 'whatsapp://' : 'https://web.whatsapp.com/';
-                    window.open(url + mensaje, '_blank');
-                }, 3000);
-            } else {
-                console.error('Error al enviar los datos:', response.statusText);
-            }    
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-      });
+        const mensaje = `send?phone=${telefono_empresa}&text=**%0A*Nombre:*%0A${nombre}%0A*Celular:*%0A${phoneNumber}%0A*Correo electrónico:*%0A${email}%0A*Ciudad:*%0A${ciudad}%0A*Pais:*%0A${country}`;
+        const url = isMobile() ? 'whatsapp://' : 'https://web.whatsapp.com/';
+        window.open(url + mensaje, '_blank');
+
+    });
+}
+    
+    function isMobile() {
+        if (sessionStorage.desktop)
+            return false;
+        else if (localStorage.mobile)
+            return true;
+        var mobile = ['iphone', 'ipad', 'android', 'blackberry', 'nokia', 'opera mini', 'windows mobile', 'windows phone', 'iemobile'];
+        for (var i in mobile)
+            if (navigator.userAgent.toLowerCase().indexOf(mobile[i].toLowerCase()) > 0) return true;
+        return false;
     }
-
+        
     function closedpopup() {
+        console.log("Cerrando popup");
         const popup = document.querySelector('#elementor-popup-modal-1671');
-        popup.style.display = 'none';
+        if (popup) {
+            popup.style.display = 'none';
+        } else {
+            console.log("No se encontró el popup");
+        }
     }
     
     function eventowp() {
@@ -1155,7 +1142,6 @@ function handleSubmitwp(event) {
         });
     
         observer.observe(targetNode, observerOptions);
-  
     }
 
     window.onload = observePopup;
