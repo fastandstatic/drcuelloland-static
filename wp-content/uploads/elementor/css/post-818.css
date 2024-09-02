@@ -164,6 +164,19 @@ body.footer_section > a {
     top: 100%;
     bottom: 0;
     
+}
+
+@media only screen and (max-width: 768px) {
+    #factores_box:before,
+    #factores_box:after {
+        display: none;
+        
+    }
+    #factores_box2:after,
+    #factores_box2:before {
+        display: none;
+       
+    }
 }/* End custom CSS */
 /* Start Custom Fonts CSS */@font-face {
 	font-family: 'Jules Colosal';
